@@ -3,6 +3,7 @@ from pathlib import Path
 from selene import browser, have, be, by, command
 
 from data.users import User
+from selene.support.shared.jquery_style import s
 
 
 class RegistationPage:
@@ -19,12 +20,9 @@ class RegistationPage:
         self.hobbie = browser.all('.custom-checkbox')
         self.picture = browser.element('#uploadPicture')
         self.address = browser.element('#currentAddress')
-        self.state = browser.element('#react-select-3-input')
-        self.city = browser.element('#react-select-3-input')
+        self.state = s('#react-select-3-input')
 
-
-
-
+        self.city = s('#react-select-4-input')
 
         self.submit = browser.element('#submit')
 
@@ -34,7 +32,7 @@ class RegistationPage:
         browser.open("/automation-practice-form")
 
     def fill_first_name(self, value):
-        self.first_name.should(be.blank)
+
         self.first_name.type(value)
 
     def fill_last_name(self, value):
@@ -50,16 +48,16 @@ class RegistationPage:
         self.mobile.type(value)
 
     def fill_date_of_birth(self, month, year, day):
+        self.date_of_birth.perform(command.js.scroll_into_view)
         self.date_of_birth.click()
         self.month_of_birth.click().element(by.text(month))
-        self.year_of_birth.click().element(by.text(year))
+        self.year_of_birth.click().element(by.text(year)).click()
         browser.element(f'.react-datepicker__day--0{day}').click()
 
     def fill_subject(self, value):
         self.subject.type(value).press_enter()
 
     def fill_hobbie(self, value):
-
         self.hobbie.element_by(have.exact_text(value)).click()
 
     def picture_upload(self, picture):
@@ -70,15 +68,10 @@ class RegistationPage:
         self.address.type(value)
 
     def fill_state(self, value):
-        # self.state.perform(command.js.scroll_into_view)
-        self.state.type(value).press_enter()
-
+        self.state.should(be.blank).type(value).press_enter()
 
     def fill_city(self, value):
-        self.city.type(value).press_enter()
-
-
-
+        self.city.should(be.blank).type(value).press_enter()
 
     def press_submit(self):
         self.submit.press_enter()
@@ -97,3 +90,18 @@ class RegistationPage:
         self.fill_state(user.state)
         self.fill_city(user.city)
         self.press_submit()
+
+    def user_register_form(self, user):
+        browser.all('.table-responsive').all('td').even.should(be.visible
+            (
+            f'{user.first_name} {user.last_name}',
+            user.email,
+            user.gender,
+            user.mobile,
+            f'{user.day_of_birth} {user.month_of_birth},{user.year_of_birth}',
+            user.subject,
+            user.hobbie,
+            user.picture_name,
+            user.address,
+            f'{user.state} {user.city}')
+        )
