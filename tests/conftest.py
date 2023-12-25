@@ -1,7 +1,7 @@
 import pytest
 from selene import browser
 from selenium import webdriver
-from selenium.webdriver import FirefoxOptions
+
 
 
 @pytest.fixture(scope='function', autouse=True)
