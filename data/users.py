@@ -22,4 +22,4 @@ class User:
 ivan = User(first_name='Ivan', last_name='Ivanov', email='ivanov@mail.com', gender='Male', mobile=8925239563,
             day_of_birth='11', month_of_birth='June', year_of_birth='1978',
             subject='English', hobbie='Reading', picture_name='1.jpeg', address='Leskova street,8',
-            city='Uttar Pradesh', state='Agra')
+            city='Agra', state='Uttar Pradesh')

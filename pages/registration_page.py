@@ -20,9 +20,9 @@ class RegistationPage:
         self.hobbie = browser.all('.custom-checkbox')
         self.picture = browser.element('#uploadPicture')
         self.address = browser.element('#currentAddress')
-        self.state = s('#react-select-3-input')
-
         self.city = s('#react-select-4-input')
+
+        self.state = s('#react-select-3-input')
 
         self.submit = browser.element('#submit')
 
@@ -32,7 +32,6 @@ class RegistationPage:
         browser.open("/automation-practice-form")
 
     def fill_first_name(self, value):
-
         self.first_name.type(value)
 
     def fill_last_name(self, value):
@@ -50,7 +49,7 @@ class RegistationPage:
     def fill_date_of_birth(self, month, year, day):
         self.date_of_birth.perform(command.js.scroll_into_view)
         self.date_of_birth.click()
-        self.month_of_birth.click().element(by.text(month))
+        self.month_of_birth.click().element(by.text(month)).click()
         self.year_of_birth.click().element(by.text(year)).click()
         browser.element(f'.react-datepicker__day--0{day}').click()
 
@@ -92,16 +91,18 @@ class RegistationPage:
         self.press_submit()
 
     def user_register_form(self, user):
-        browser.all('.table-responsive').all('td').even.should(be.visible
+        browser.all('.table-responsive').all('td').should(have.exact_texts
             (
             f'{user.first_name} {user.last_name}',
+
             user.email,
             user.gender,
-            user.mobile,
+            str(user.mobile),
             f'{user.day_of_birth} {user.month_of_birth},{user.year_of_birth}',
             user.subject,
             user.hobbie,
             user.picture_name,
             user.address,
-            f'{user.state} {user.city}')
+            f'{user.state} {user.city}'
+        )
         )
