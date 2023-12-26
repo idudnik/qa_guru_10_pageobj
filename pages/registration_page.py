@@ -91,18 +91,17 @@ class RegistationPage:
         self.press_submit()
 
     def user_register_form(self, user):
-        browser.all('.table-responsive').all('td').should(have.exact_texts
-            (
-            f'{user.first_name} {user.last_name}',
-
-            user.email,
-            user.gender,
-            str(user.mobile),
-            f'{user.day_of_birth} {user.month_of_birth},{user.year_of_birth}',
-            user.subject,
-            user.hobbie,
-            user.picture_name,
-            user.address,
-            f'{user.state} {user.city}'
-        )
+        browser.all('.table-responsive').all('td').even.should(
+            have.exact_texts(
+                f'{user.first_name} {user.last_name}',
+                user.email,
+                user.gender,
+                str(user.mobile),
+                f'{user.day_of_birth} {user.month_of_birth},{user.year_of_birth}',
+                user.subject,
+                user.hobbie,
+                user.picture_name,
+                user.address,
+                f'{user.state} {user.city}'
+            )
         )
